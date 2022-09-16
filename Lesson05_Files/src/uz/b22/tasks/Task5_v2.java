@@ -17,9 +17,11 @@ public class Task5_v2 {
 
         try (Scanner scanner = new Scanner(file)) {
 
+            double total = 0;
             while (scanner.hasNext()) {
                 if (scanner.hasNextDouble()) {
-                    System.out.println("scanner.nextDouble()() = " + scanner.nextDouble());
+                    total += scanner.nextDouble();
+                    // System.out.println("scanner.nextDouble()() = " + scanner.nextDouble());
                 }else if (scanner.hasNextInt()) {
                     System.out.println("scanner.nextInt() = " + scanner.nextInt());
                 } else if (scanner.hasNextFloat()) {
@@ -30,6 +32,8 @@ public class Task5_v2 {
                     System.out.println("scanner.next() = " + scanner.next());
                 }
             }
+
+            System.out.println("total = " + total);
 
         } catch (IOException e) {
             e.printStackTrace();
