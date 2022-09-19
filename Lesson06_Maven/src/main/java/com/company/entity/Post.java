@@ -1,16 +1,15 @@
 package com.company.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Getter
-public class Book {
+@Setter
+public class Post {
+    private Integer id;
+    private Integer userId;
     private String title;
-    private String author;
-    private double price;
+    private String body;
 }

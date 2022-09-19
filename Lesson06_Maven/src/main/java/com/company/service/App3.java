@@ -34,6 +34,7 @@ public class App3 {
                 .serializeNulls().create();
 
         Book[] books = gson.fromJson(json, Book[].class);
+        // Book list shaklida o'qish
 
         System.out.println(Arrays.toString(books));
     }
