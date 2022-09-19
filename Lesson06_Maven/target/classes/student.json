@@ -1,0 +1,7 @@
+{
+  "name": "Ali",
+  "surname": "Aliyev",
+  "course": 3,
+  "university": "PDP",
+  "subjects": ["Java", "Database", "Spring", "DSA"]
+}

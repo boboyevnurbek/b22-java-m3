@@ -1,0 +1,29 @@
+<students>
+
+    <student>
+        <name>Ali</name>
+        <surname>Aliyev</surname>
+        <course>3</course>
+        <university>PDP</university>
+        <subjects>
+            <subject>Java</subject>
+            <subject>Database</subject>
+            <subject>Spring</subject>
+            <subject>DSA</subject>
+        </subjects>
+    </student>
+
+    <student>
+        <name>Otabek</name>
+        <surname>Eshpulatov</surname>
+        <course>2</course>
+        <university>UZMU</university>
+        <subjects>
+            <subject>Java</subject>
+            <subject>Database</subject>
+            <subject>Spring</subject>
+            <subject>DSA</subject>
+        </subjects>
+    </student>
+
+</students>

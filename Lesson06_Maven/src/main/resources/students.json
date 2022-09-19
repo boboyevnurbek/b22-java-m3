@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Ali",
+    "surname": "Aliyev",
+    "course": 3,
+    "university": "PDP",
+    "subjects": ["Java", "Database", "Spring", "DSA"]
+  },
+  {
+    "name": "Otabek",
+    "surname": "Eshpulatov",
+    "course": 3,
+    "university": "UZMU",
+    "subjects": ["Java", "Database", "Spring", "DSA"]
+  }
+]

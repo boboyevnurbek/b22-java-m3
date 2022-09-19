@@ -1,0 +1,12 @@
+<student>
+    <name>Ali</name>
+    <surname>Aliyev</surname>
+    <course>3</course>
+    <university>PDP</university>
+    <subjects>
+        <subject>Java</subject>
+        <subject>Database</subject>
+        <subject>Spring</subject>
+        <subject>DSA</subject>
+    </subjects>
+</student>
