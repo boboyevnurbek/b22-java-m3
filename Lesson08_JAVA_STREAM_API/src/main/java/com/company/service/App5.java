@@ -2,66 +2,44 @@ package com.company.service;
 
 import com.company.entity.Person;
 
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-public class App4 {
+public class App5 {
     public static void main(String[] args) {
-        List<Person> people = Database.getPeople();
 
-        System.out.println("\n **** sorted ***");
-        people.stream()
-                .sorted(Comparator.comparing(Person::getAge).thenComparing(Person::getBalance))
-                .toList()
-                .forEach(System.out::println);
-
-        System.out.println("\n **** map ***");
-
-        people.stream()
-                .map(Person::getAge)
-                .distinct()
-                .sorted()
-                .toList()
-                .forEach(System.out::println);
-
-        System.out.println("\n **** map, max balance ***");
-
-        System.out.println(people.stream()
-                .map(Person::getBalance)
-                .max(Double::compareTo)
-                .orElse(0d));
-
-        System.out.println("\n **** group by ***");
-//        Map<String, List<Person>> map = new HashMap<>();
-//        for (Person person : people) {
-//            map.merge(person.getRegion(), new ArrayList<>(List.of(person)), (p1, p2) -> {
-//                p1.addAll(p2);
-//                return p1;
-//            });
-//        }
+//        List<Integer> list = new ArrayList<>(
+//                List.of(25, 47, 84, 15, 24, 71, 3, 15, 21, 99, 84, 99, 100));
 //
-//        for (Map.Entry<String, List<Person>> entry : map.entrySet()) {
-//            System.out.println(entry.getKey());
-//            System.out.println(entry.getValue());
-//            System.out.println();
-//        }
+//        Stream<Integer> stream = list.stream();
+//
+//        stream.toList().forEach(System.out::println);
+//        stream.toList().forEach(System.out::println); // exception
 
-        Map<String, List<Person>> listMap = people.stream()
-                .collect(Collectors.groupingBy(Person::getRegion));
+        double average = IntStream.generate(() -> new Random().nextInt(100))
+                .peek(System.out::println)
+                .limit(10)
+                .summaryStatistics()
+                .getAverage();
 
-        listMap.forEach((region, personList) -> {
-            System.out.println(region);
-            personList.forEach(System.out::println);
-            System.out.println();
-        });
+        System.out.println("average = " + average);
 
-        System.out.println("\n **** flatMap ***");
+//        IntStream intStream = IntStream.generate(() -> new Random().nextInt(100))
+//                .peek(System.out::println)
+//                .limit(10);
+//
+//        int[] array = intStream.toArray();
+//        System.out.println("array = " + Arrays.toString(array));
+//
+//        IntSummaryStatistics statistics = intStream.summaryStatistics();
+//        System.out.println("statistics.getMin() = " + statistics.getMin());
+//        System.out.println("statistics.getMax() = " + statistics.getMax());
+//        System.out.println("statistics.getCount() = " + statistics.getCount());
+//        System.out.println("statistics.getSum() = " + statistics.getSum());
+//        System.out.println("statistics.getAverage() = " + statistics.getAverage());
 
-        people.stream()
-                .flatMap(person -> person.getLanguages().stream())
-                .distinct()
-                .sorted()
-                .toList()
-                .forEach(System.out::println);
     }
 }
