@@ -75,6 +75,24 @@ public class App3 {
                 .limit(7)
                 .toList();
         System.out.println("items = " + items);
+
+        Optional<Integer> maxOptional = list.stream().max(Integer::compareTo);
+        System.out.println("maxOptional.get() = " + maxOptional.get());
+
+        Optional<Integer> minOptional = list.stream().min(Integer::compareTo);
+        System.out.println("minOptional.get() = " + minOptional.get());
+
+        Optional<Integer> reduceOptional = list.stream().reduce((total, element) -> total + element);
+        System.out.println("reduceOptional = " + reduceOptional);
+        System.out.println("reduceOptional.get() = " + reduceOptional.get());
+
+        Integer reduce = list.stream().reduce(0, (total, element) -> total + element);
+        System.out.println("reduce = " + reduce);
+
+        Integer integer = list.stream().filter(n -> n >= 10).findFirst().orElse(null);
+        System.out.println("integer = " + integer);
+
+
     }
 
 

@@ -2,6 +2,8 @@ package com.company.entity;
 
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,4 +15,5 @@ public class Person {
     private int age;
     private String region;
     private double balance;
+    private List<String> languages;
 }

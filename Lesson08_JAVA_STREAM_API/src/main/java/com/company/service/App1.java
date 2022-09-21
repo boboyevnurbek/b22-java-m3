@@ -20,7 +20,8 @@ public class App1 {
                     faker.name().lastName(),
                     faker.number().numberBetween(18, 45),
                     faker.address().city(),
-                    faker.number().randomDouble(2, 0, 100)
+                    faker.number().randomDouble(2, 0, 100),
+                            List.of("english")
             ));
         }
 
