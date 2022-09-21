@@ -25,15 +25,23 @@ public class Main {
         while (true) {
             String choose = menu();
             if (choose.equals("0")) break;
-            ;
 
             switch (choose) {
                 case "1" -> addNewWord();
                 case "2" -> translateWords();
                 case "3" -> showWords();
+                case "4" -> showResults();
             }
         }
 
+    }
+
+    private static void showResults() {
+        if (resultList.isEmpty()) {
+            System.out.println("No results");
+        } else {
+            resultList.forEach(System.out::println);
+        }
     }
 
     private static void showWords() {
@@ -54,10 +62,16 @@ public class Main {
 
         for (Word word : words) {
             if (i == 0) break;
-            countQuestion++;
-            System.out.print(word.getEng() + " = ");
+
+            LocalDateTime stopTime = LocalDateTime.now().plusSeconds(11);
+            System.out.print(word.getEng() + "(time: 10 second, quit = stop quiz) = ");
             String answer = ScannerUtil.SCANNER_STR.nextLine();
-            if (word.getUzb().contains(answer)) {
+
+            if (answer.equalsIgnoreCase("quit")) break;
+
+            countQuestion++;
+
+            if (LocalDateTime.now().isBefore(stopTime) && word.getUzb().contains(answer)) {
                 score++;
                 System.out.println("😎");
             } else {
@@ -116,6 +130,7 @@ public class Main {
         System.out.println("1. Add new word");
         System.out.println("2. Translate words");
         System.out.println("3. Show words");
+        System.out.println("4. Show results");
         System.out.println("0. Exit");
         System.out.print("Choice: ");
         return ScannerUtil.SCANNER_STR.nextLine();
