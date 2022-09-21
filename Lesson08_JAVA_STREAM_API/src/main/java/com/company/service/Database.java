@@ -17,7 +17,7 @@ public interface Database {
         people.add(new Person("Fotihjon", "Komilov", 18, "Tashkent", 5600, List.of("uzbek", "english", "japanese")));
         people.add(new Person("Murod", "Komilov", 22, "Xorazm", 150, List.of("uzbek", "english")));
         people.add(new Person("Fayzullo", "Yusupov", 20, "Andijan", 100, List.of("uzbek", "english", "spanish")));
-        people.add(new Person("Fayzullo", "Qaxramonov", 18, "Andijan", 100, List.of("uzbek", "english", "russian")));
+        people.add(new Person("Fayzullo", "Qaxramonov", 18, "Andijan", 100, List.of("uzbek", "russian")));
 
         return people;
     }
