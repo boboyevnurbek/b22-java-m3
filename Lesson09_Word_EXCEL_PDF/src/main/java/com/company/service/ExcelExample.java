@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.entity.Person;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -60,6 +61,10 @@ public class ExcelExample {
                 sheet.autoSizeColumn(i);
             }
 
+            int rowIndex = people.size()+2;
+            XSSFRow row = sheet.createRow(rowIndex);
+            row.createCell(2).setCellValue("Average: ");
+            row.createCell(3).setCellFormula("AVERAGE(D2:D"+(people.size()+1)+")");
 
             workbook.write(out);
 
