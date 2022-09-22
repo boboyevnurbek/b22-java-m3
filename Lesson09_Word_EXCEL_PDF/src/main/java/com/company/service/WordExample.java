@@ -34,7 +34,6 @@ public class WordExample {
             run.setFontSize(16);
             run.setFontFamily("Consolas");
 
-
             XWPFTable table = document.createTable();
             table.setWidth("100%");
 
