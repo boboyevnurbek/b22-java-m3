@@ -1,4 +1,4 @@
-package comconpany.service;
+package com.company.service;
 
 import java.util.Map;
 

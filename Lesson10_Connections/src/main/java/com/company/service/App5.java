@@ -1,4 +1,4 @@
-package comconpany.service;
+package com.company.service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.net.URLConnection;
 public class App5 {
     public static void main(String[] args) {
         try {
-            URL url = new URL("https://jsonplaceholder.typicode.com/comments?postId=777");
+            URL url = new URL("https://jsonplaceholder.typicode.com/comments?postId=77");
 
             URLConnection urlConnection = url.openConnection();
 
@@ -23,8 +23,6 @@ public class App5 {
             while ((line = reader.readLine()) != null){
                 System.out.println(line);
             }
-
-            // shu input stream dagi ma;lumotlarni excelga yozish
 
         } catch (IOException e) {
             e.printStackTrace();
