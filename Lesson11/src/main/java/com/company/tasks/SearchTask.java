@@ -52,6 +52,7 @@ public class SearchTask {
             } while (index != -1);
 
             reader.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
