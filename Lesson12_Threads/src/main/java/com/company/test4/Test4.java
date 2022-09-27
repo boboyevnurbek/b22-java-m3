@@ -43,7 +43,7 @@ class MyThread extends Thread {
                 account.addToBalance(1);
             }
         }
-        
+
     }
 }
 
