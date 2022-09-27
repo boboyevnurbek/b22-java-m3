@@ -1,6 +1,6 @@
 package com.company.test1;
 
-public class App1 {
+public class Test1 {
     public static void main(String[] args) throws InterruptedException {
         // Multiprocessing
         // Multithreading
