@@ -22,7 +22,8 @@ public class Test4 {
 
         System.out.println("in main account.getBalance() = " + account.getBalance());
 
-//        synchronized
+        // synchronized => block, instance method, static method
+        // synchronized method -> lock object
 
     }
 }
@@ -36,18 +37,39 @@ class MyThread extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 100; i++) {
-            account.addToBalance(1);
+
+        synchronized (account){
+            for (int i = 0; i < 100; i++) {
+                account.addToBalance(1);
+            }
         }
+        
     }
 }
 
 
 class Account {
-    private volatile double balance = 0;
+    //    private volatile double balance = 0;
+    private double balance = 0;
+
+//    public synchronized void addToBalance(double amount) {
+//        double b = this.balance;
+//        b = b + amount;
+//        this.balance = b;
+//    }
+
+//    public void addToBalance(double amount) {
+//        synchronized (this){
+//            double b = this.balance;
+//            b = b + amount;
+//            this.balance = b;
+//        }
+//    }
 
     public void addToBalance(double amount) {
-        balance += amount;
+            double b = this.balance;
+            b = b + amount;
+            this.balance = b;
     }
 
     public double getBalance() {
