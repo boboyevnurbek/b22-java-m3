@@ -1,6 +1,9 @@
 package com.company.controller;
 
 import com.company.container.ComponentContainer;
+import com.company.util.KeyboardButtonConstants;
+import com.company.util.KeyboardButtonUtil;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
 
@@ -42,10 +45,26 @@ public class MainController {
         sendMessage.setChatId(chatId);
 
         if(text.equals("/start")){
-            sendMessage.setText("Assalomu alaykum!");
+            sendMessage.setText("Hello!");
         }else if(text.equalsIgnoreCase("/help")){
             sendMessage.setText("I can't help you");
-        } else{
+        }
+        else if(text.equalsIgnoreCase("/menu")){
+
+//            sendMessage.setText("*Choose: *");
+//            sendMessage.setParseMode(ParseMode.MARKDOWNV2);
+
+            sendMessage.setText("<b><u> Choose: </u></b>");
+            sendMessage.setParseMode(ParseMode.HTML);
+
+            sendMessage.setReplyMarkup(KeyboardButtonUtil.getBaseMenu());
+        }
+        else if(text.equalsIgnoreCase(KeyboardButtonConstants.MENU_DEMO)){
+            sendMessage.setText("MENU button clicked");
+        }else if(text.equalsIgnoreCase(KeyboardButtonConstants.SETTINGS_DEMO)){
+            sendMessage.setText("SETTINGS button clicked");
+        }
+        else{
             sendMessage.setText(text);
         }
 
