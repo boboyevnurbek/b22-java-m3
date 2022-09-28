@@ -7,6 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.List;
 
+import static com.company.util.KeyboardButtonConstants.INLINES_DEMO;
+
 public class KeyboardButtonUtil {
     public static ReplyKeyboardMarkup getBaseMenu(){
         KeyboardButton button1 = new KeyboardButton(KeyboardButtonConstants.MENU_DEMO);
@@ -25,7 +27,8 @@ public class KeyboardButtonUtil {
         KeyboardRow row2 = new KeyboardRow(List.of(button3));
         KeyboardRow row3 = new KeyboardRow(List.of(button4));
 
-        List<KeyboardRow> rowList = List.of(row1, row2, row3);
+        List<KeyboardRow> rowList = List.of(row1, row2, row3,
+                new KeyboardRow(List.of(new KeyboardButton(INLINES_DEMO))));
 
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup(rowList);
 

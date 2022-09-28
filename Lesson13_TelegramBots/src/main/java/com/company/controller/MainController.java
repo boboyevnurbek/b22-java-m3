@@ -2,12 +2,17 @@ package com.company.controller;
 
 import com.company.container.ComponentContainer;
 import com.company.entity.Customer;
+import com.company.files.WorkWithFiles;
 import com.company.service.CustomerService;
+import com.company.util.InlineKeyboardButtonUtil;
 import com.company.util.KeyboardButtonConstants;
 import com.company.util.KeyboardButtonUtil;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
 
@@ -80,6 +85,7 @@ public class MainController {
                 sendMessage.setReplyMarkup(KeyboardButtonUtil.getContactMenu());
             }else{
                 sendMessage.setText("Hello!");
+                sendMessage.setReplyMarkup(KeyboardButtonUtil.getBaseMenu());
             }
         }else if(text.equalsIgnoreCase("/help")){
             sendMessage.setText("I can't help you");
@@ -98,6 +104,9 @@ public class MainController {
             sendMessage.setText("MENU button clicked");
         }else if(text.equalsIgnoreCase(KeyboardButtonConstants.SETTINGS_DEMO)){
             sendMessage.setText("SETTINGS button clicked");
+        }else if(text.equalsIgnoreCase(KeyboardButtonConstants.INLINES_DEMO)){
+            sendMessage.setText("This is inline buttons");
+            sendMessage.setReplyMarkup(InlineKeyboardButtonUtil.getInlineMenu());
         }
         else{
             sendMessage.setText(text);
@@ -107,6 +116,19 @@ public class MainController {
     }
 
     public static void handleCallback(User user, Message message, String data) {
+        String chatId = String.valueOf(message.getChatId());
 
+        DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
+        ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+
+        if(data.equals("_export_to_excel")){
+            SendDocument sendDocument = new SendDocument();
+            sendDocument.setChatId(chatId);
+            sendDocument.setDocument(new InputFile(WorkWithFiles.generateCustomerExcelFile()));
+            ComponentContainer.MY_BOT.sendMsg(sendDocument);
+        }else if(data.equals("_export_to_pdf")){
+            SendMessage sendMessage = new SendMessage(chatId, "loading...");
+            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+        }
     }
 }
