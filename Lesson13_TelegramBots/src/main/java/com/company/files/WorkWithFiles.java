@@ -5,6 +5,11 @@ import com.company.entity.Customer;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -72,6 +77,42 @@ public interface WorkWithFiles {
             }
 
             workbook.write(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
+    static File generateCustomerPdfFile() {
+        File file = new File(BASE_FOLDER, "customers.pdf");
+
+        try(PdfWriter pdfWriter = new PdfWriter(file);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            Document document = new Document(pdfDocument)) {
+
+            pdfDocument.addNewPage();
+
+            Paragraph paragraph = new Paragraph("Users");
+            document.add(paragraph);
+
+            float[] columns = {25f, 50f, 50f, 50f};
+            Table table = new Table(columns);
+
+            String[] header = {"Chat Id", "First Name", "Last Name", "Phone Number"};
+            for (String s : header) {
+                table.addCell(s);
+            }
+
+            for (Customer customer : Database.customerList) {
+                table.addCell(customer.getChatId());
+                table.addCell(customer.getFirstName());
+                table.addCell(customer.getLastName()!=null ? customer.getLastName() : "");
+                table.addCell(customer.getPhoneNumber());
+            }
+
+            document.add(table);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,7 +10,9 @@ import com.company.util.KeyboardButtonUtil;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -118,17 +120,34 @@ public class MainController {
     public static void handleCallback(User user, Message message, String data) {
         String chatId = String.valueOf(message.getChatId());
 
-        DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
-        ComponentContainer.MY_BOT.sendMsg(deleteMessage);
-
         if(data.equals("_export_to_excel")){
+
+            DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
+            ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+
             SendDocument sendDocument = new SendDocument();
             sendDocument.setChatId(chatId);
             sendDocument.setDocument(new InputFile(WorkWithFiles.generateCustomerExcelFile()));
             ComponentContainer.MY_BOT.sendMsg(sendDocument);
+
         }else if(data.equals("_export_to_pdf")){
-            SendMessage sendMessage = new SendMessage(chatId, "loading...");
-            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+//            SendMessage sendMessage = new SendMessage(chatId, "loading...");
+//            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+            DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
+            ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+
+            SendDocument sendDocument = new SendDocument();
+            sendDocument.setChatId(chatId);
+            sendDocument.setDocument(new InputFile(WorkWithFiles.generateCustomerPdfFile()));
+            ComponentContainer.MY_BOT.sendMsg(sendDocument);
+
+        }else if(data.equals("_for_edit_message")){
+            EditMessageText editMessageText = new EditMessageText();
+            editMessageText.setChatId(chatId);
+            editMessageText.setMessageId(message.getMessageId());
+            editMessageText.setText("This edited text");
+            ComponentContainer.MY_BOT.sendMsg(editMessageText);
         }
     }
 }
