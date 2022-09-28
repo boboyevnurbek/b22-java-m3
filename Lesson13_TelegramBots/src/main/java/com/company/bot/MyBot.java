@@ -1,5 +1,6 @@
 package com.company.bot;
 
+import com.company.container.ComponentContainer;
 import com.company.controller.MainController;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,12 +13,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class MyBot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
-        return "";
+        return ComponentContainer.BOT_TOKEN;
     }
 
     @Override
     public String getBotUsername() {
-        return "";
+        return ComponentContainer.BOT_USERNAME;
     }
 
     @Override
@@ -37,7 +38,6 @@ public class MyBot extends TelegramLongPollingBot {
             MainController.handleCallback(user, message, data);
         }
     }
-
 
     public void sendMsg(SendMessage sendMessage){
         try {

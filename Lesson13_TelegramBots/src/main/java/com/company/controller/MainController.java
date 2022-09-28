@@ -1,6 +1,8 @@
 package com.company.controller;
 
 import com.company.container.ComponentContainer;
+import com.company.entity.Customer;
+import com.company.service.CustomerService;
 import com.company.util.KeyboardButtonConstants;
 import com.company.util.KeyboardButtonUtil;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -11,6 +13,13 @@ import java.util.List;
 
 public class MainController {
     public static void handleMessage(User user, Message message) {
+        String chatId = String.valueOf(message.getChatId());
+
+//        if(chatId.equals(ComponentContainer.ADMIN_CHAT_ID)){
+//            AdminController.handleMessage(user, message);
+//            return;
+//        }
+
         if(message.hasText()){
             String text = message.getText();
             handleText(user, message, text);
@@ -35,7 +44,26 @@ public class MainController {
     }
 
     private static void handleContact(User user, Message message, Contact contact) {
+        String chatId = String.valueOf(message.getChatId());
 
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+
+        Customer customer = CustomerService.getCustomerByChatId(chatId);
+        if(customer != null){
+            sendMessage.setText("Your contact already saved 😀");
+        }else{
+            Customer addCustomer = CustomerService.addCustomer(chatId, contact);
+            sendMessage.setText("Your contact successfully saved 😀");
+
+            // FOR ADMIN
+            SendMessage msg = new SendMessage(ComponentContainer.ADMIN_CHAT_ID,
+                    "new customer : "+addCustomer);
+            ComponentContainer.MY_BOT.sendMsg(msg);
+        }
+
+        sendMessage.setReplyMarkup(KeyboardButtonUtil.getBaseMenu());
+        ComponentContainer.MY_BOT.sendMsg(sendMessage);
     }
 
     private static void handleText(User user, Message message, String text) {
@@ -45,7 +73,14 @@ public class MainController {
         sendMessage.setChatId(chatId);
 
         if(text.equals("/start")){
-            sendMessage.setText("Hello!");
+
+            Customer customer = CustomerService.getCustomerByChatId(chatId);
+            if(customer == null){
+                sendMessage.setText("Hello!\nSend your number");
+                sendMessage.setReplyMarkup(KeyboardButtonUtil.getContactMenu());
+            }else{
+                sendMessage.setText("Hello!");
+            }
         }else if(text.equalsIgnoreCase("/help")){
             sendMessage.setText("I can't help you");
         }
