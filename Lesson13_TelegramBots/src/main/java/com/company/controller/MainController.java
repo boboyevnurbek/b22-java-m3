@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainController {
@@ -43,6 +44,30 @@ public class MainController {
     }
 
     private static void handlePhoto(User user, Message message, List<PhotoSize> photoSizeList) {
+
+        String fileId = photoSizeList.get(photoSizeList.size() - 1).getFileId();
+        //System.out.println(fileId);
+
+        ComponentContainer.MY_BOT.imageList.add(fileId);
+
+        Collections.shuffle(ComponentContainer.MY_BOT.imageList);
+
+        String chatId = String.valueOf(message.getChatId());
+
+        SendPhoto sendPhoto1 = new SendPhoto();
+        sendPhoto1.setChatId(chatId);
+        sendPhoto1.setPhoto(new InputFile(ComponentContainer.MY_BOT.imageList.get(0)));
+        sendPhoto1.setCaption("This is simple image");
+        ComponentContainer.MY_BOT.sendMsg(sendPhoto1);
+
+//        SendMessage sendMessage = new SendMessage(chatId, "Your image received");
+//        ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(ComponentContainer.ADMIN_CHAT_ID);
+        sendPhoto.setPhoto(new InputFile(fileId));
+        sendPhoto.setCaption("This is image");
+        ComponentContainer.MY_BOT.sendMsg(sendPhoto);
 
     }
 
