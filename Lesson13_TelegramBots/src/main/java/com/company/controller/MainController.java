@@ -47,6 +47,36 @@ public class MainController {
     }
 
     private static void handleLocation(User user, Message message, Location location) {
+        String chatId = String.valueOf(message.getChatId());
+
+        SendMessage sendMessage = new SendMessage(chatId, "Your location received");
+        ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+        Double latitude = location.getLatitude();
+        Double longitude = location.getLongitude();
+
+        Customer customer = CustomerService.getCustomerByChatId(chatId);
+        SendMessage sendMessage1 = new SendMessage();
+        sendMessage1.setChatId(ComponentContainer.ADMIN_CHAT_ID);
+
+        StringBuilder sb = new StringBuilder();
+
+        if(customer != null){
+            sb.append("<b>Customer: </b> "+customer.getFirstName()+" "+customer.getLastName());
+            sb.append("\n\n");
+            sb.append("<b>Phone number: </b>"+customer.getPhoneNumber());
+            sb.append("\n\n");
+
+            sb.append("<a href='https://yandex.uz/maps/org/132435894010/?ll="+
+                    longitude+"%2C"+latitude+"&z=14'> Xaritadan ko'rish </a>");
+        }else {
+            sb.append("<b style='color:red'>This customer not found</b>");
+        }
+
+        sendMessage1.setText(sb.toString());
+        sendMessage1.setParseMode(ParseMode.HTML);
+        sendMessage1.setDisableWebPagePreview(true);
+        ComponentContainer.MY_BOT.sendMsg(sendMessage1);
 
     }
 
