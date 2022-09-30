@@ -5,4 +5,6 @@ public class KeyboardButtonConstants {
     public static final String START_ELECTION = "START ELECTION";
     public static final String SHOW_COUNT_VOICE = "SHOW COUNT VOICE";
     public static final String FINISH_ELECTION = "FINISH ELECTION";
+
+    public static final String ACCESS_VOTE = "VOTING PROCESS";
 }

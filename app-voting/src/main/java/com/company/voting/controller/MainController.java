@@ -5,8 +5,13 @@ import com.company.voting.db.Database;
 import com.company.voting.entity.Candidate;
 import com.company.voting.entity.Customer;
 import com.company.voting.files.WorkWithFiles;
+import com.company.voting.qrcode.GenerateQRCode;
 import com.company.voting.service.CandidateService;
 import com.company.voting.service.CustomerService;
+import com.company.voting.util.KeyboardButtonConstants;
+import com.company.voting.util.KeyboardButtonUtil;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.WriterException;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,7 +19,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +41,30 @@ public class MainController {
 
     private static void handleContact(User user, Message message, Contact contact) {
         String chatId = String.valueOf(message.getChatId());
+        Customer customer = CustomerService.getCustomerByChatId(chatId);
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+
+        if (customer == null) {
+            customer = CustomerService.addCustomer(chatId, contact);
+
+            try {
+                File qrCodeFile = GenerateQRCode.getQRCodeFile(chatId, customer.getConfirmPassword());
+
+                SendPhoto sendPhoto = new SendPhoto(chatId, new InputFile(qrCodeFile));
+                sendPhoto.setReplyMarkup(new ReplyKeyboardRemove(true));
+                ComponentContainer.MY_BOT.sendMsg(sendPhoto);
+                return;
+            } catch (WriterException | NotFoundException | IOException e) {
+                sendMessage.setText("Qayta urunib ko'ring. ");
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            }
+        }else{
+            sendMessage.setText("Menu: ");
+            sendMessage.setReplyMarkup(KeyboardButtonUtil.getCustomerMenu());
+            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+        }
     }
 
     private static void handleText(User user, Message message, String text) {
@@ -40,17 +73,73 @@ public class MainController {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
 
-        Customer customer = CustomerService.getCustomerByChatId(chatId);
-
-        if(customer == null){
-            CustomerService.addCustomer(chatId,
-                    new Contact("+998901234567", "f", "l", 1234567l, "vcard"));
-        }
-
         if (text.equals("/start")) {
-            sendMessage.setText("Assalomu alaykum!");
-            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            Customer customer = CustomerService.getCustomerByChatId(chatId);
+
+            if (customer == null) {
+                sendMessage.setText("Assalomu alaykum!");
+                sendMessage.setReplyMarkup(KeyboardButtonUtil.getContactMenu());
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            }else{
+                sendMessage.setText("Menu");
+                sendMessage.setReplyMarkup(KeyboardButtonUtil.getCustomerMenu());
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            }
+        }else{
+            Customer customer = CustomerService.getCustomerByChatId(chatId);
+            if(customer == null){
+                sendMessage.setText("Assalomu alaykum!");
+                sendMessage.setReplyMarkup(KeyboardButtonUtil.getContactMenu());
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            }else{
+                if(!customer.isActive()){
+                    if(text.equals(customer.getConfirmPassword())){
+                        customer.setActive(true);
+                        WorkWithFiles.writeCustomerList();
+
+                        sendMessage.setText("Menu");
+                        sendMessage.setReplyMarkup(KeyboardButtonUtil.getCustomerMenu());
+                        ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                    }else{
+                        sendMessage.setText("Kod noto'g'ri");
+                        ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                    }
+                }else{
+                    if(text.equals(KeyboardButtonConstants.ACCESS_VOTE)){
+                        if(ComponentContainer.startElection){
+                            if(!customer.isHasVoted()){
+                                for (Candidate candidate : Database.candidateList) {
+                                    new MyThread(candidate, customer).start();
+                                }
+                            }else{
+                                sendMessage.setText("Siz ovoz bergansiz.");
+                                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                            }
+                        }else{
+                            sendMessage.setText("Ayni paytda aktiv saylov mavjud emas.");
+                            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                        }
+                    }else if(text.equals(KeyboardButtonConstants.SHOW_COUNT_VOICE)){
+                        if(ComponentContainer.startElection){
+                            StringBuilder sb = new StringBuilder("Hozircha ovozlar soni: \n\n");
+
+                            Database.candidateList.sort((c1, c2) -> Integer.compare(c2.getCountVotes(), c1.getCountVotes()));
+
+                            for (Candidate candidate : Database.candidateList) {
+                                sb.append(candidate.getFullName()+" : "+candidate.getCountVotes()+"\n");
+                            }
+                            sendMessage.setText(sb.toString()+ LocalDateTime.now()+" paytiga ko'ra");
+
+                            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                        }else{
+                            sendMessage.setText("Ayni paytda aktiv saylov mavjud emas.");
+                            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                        }
+                    }
+                }
+            }
         }
+
 
     }
 
@@ -74,16 +163,18 @@ public class MainController {
                 WorkWithFiles.writeCustomerList();
                 WorkWithFiles.writeCandidateList();
 
-                sendMessage.setText("siz "+candidate.getFullName()+" ga ovoz berdingiz.");
+                sendMessage.setText("siz " + candidate.getFullName() + " ga ovoz berdingiz.");
 
                 for (Message message1 : Database.messageList) {
-                    DeleteMessage deleteMessage = new DeleteMessage(message1.getChatId().toString(), message1.getMessageId());
-                    ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+                    if(String.valueOf(message1.getChatId()).equals(chatId)){
+                        DeleteMessage deleteMessage = new DeleteMessage(String.valueOf(message1.getChatId()), message1.getMessageId());
+                        ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+                    }
                 }
 
                 Database.messageList.removeIf(message1 -> message1.getChatId().toString().equals(chatId));
 
-            }else{
+            } else {
                 sendMessage.setText("siz avval ovoz bergansiz");
             }
 

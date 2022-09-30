@@ -40,4 +40,19 @@ public class KeyboardButtonUtil {
         markup.setSelective(true);
         return markup;
     }
+
+    public static ReplyKeyboard getContactMenu() {
+        KeyboardButton button = getButton("Raqamingizni jo'nating.");
+        button.setRequestContact(true);
+
+        return getMarkup(getRowList(getRow(button)));
+    }
+
+    public static ReplyKeyboard getCustomerMenu() {
+
+        return getMarkup(getRowList(getRow(
+                getButton(KeyboardButtonConstants.ACCESS_VOTE),
+                getButton(KeyboardButtonConstants.SHOW_COUNT_VOICE)
+        )));
+    }
 }

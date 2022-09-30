@@ -83,7 +83,15 @@ public class AdminController {
                 ComponentContainer.startElection = true;
                 sendMessage.setText("Saylov boshlandi.");
 
-                sendMessageToCustomersForElection();
+                for (Candidate candidate : Database.candidateList) {
+                    candidate.setCountVotes(0);
+                }
+                WorkWithFiles.writeCandidateList();
+
+                for (Customer customer : Database.customerList) {
+                    customer.setHasVoted(false);
+                }
+                WorkWithFiles.writeCustomerList();
 
                 sendMessageToCustomers("Saylov boshlandi.");
             }
@@ -110,11 +118,7 @@ public class AdminController {
                 SendMessage sendMessage1 = new SendMessage(chatId, sb.toString());
                 ComponentContainer.MY_BOT.sendMsg(sendMessage1);
 
-                // Database.candidateList.clear();
-
-                for (Candidate candidate : Database.candidateList) {
-                    candidate.setCountVotes(0);
-                }
+                Database.candidateList.clear();
                 WorkWithFiles.writeCandidateList();
 
                 for (Customer customer : Database.customerList) {
@@ -125,16 +129,22 @@ public class AdminController {
             }
             ComponentContainer.MY_BOT.sendMsg(sendMessage);
         } else if (text.equals(KeyboardButtonConstants.SHOW_COUNT_VOICE)) {
-            StringBuilder sb = new StringBuilder("Hozircha ovozlar soni: \n\n");
+            if(ComponentContainer.startElection){
+                StringBuilder sb = new StringBuilder("Hozircha ovozlar soni: \n\n");
 
-            Database.candidateList.sort((c1, c2) -> Integer.compare(c2.getCountVotes(), c1.getCountVotes()));
+                Database.candidateList.sort((c1, c2) -> Integer.compare(c2.getCountVotes(), c1.getCountVotes()));
 
-            for (Candidate candidate : Database.candidateList) {
-                sb.append(candidate.getFullName()+" : "+candidate.getCountVotes()+"\n");
+                for (Candidate candidate : Database.candidateList) {
+                    sb.append(candidate.getFullName()+" : "+candidate.getCountVotes()+"\n");
+                }
+                sendMessage.setText(sb.toString()+ LocalDateTime.now()+" paytiga ko'ra");
+
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+            }else{
+                sendMessage.setText("Ayni paytda aktiv saylov mavjud emas.");
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
             }
-            sendMessage.setText(sb.toString()+ LocalDateTime.now()+" paytiga ko'ra");
 
-            ComponentContainer.MY_BOT.sendMsg(sendMessage);
         } else {
             if (ComponentContainer.statusMap.containsKey(chatId)) {
                 AdminStatus adminStatus = ComponentContainer.statusMap.get(chatId);
@@ -246,7 +256,7 @@ class MyThread extends Thread{
         sendPhoto.setPhoto(new InputFile(candidate.getFileId()));
         sendPhoto.setCaption(candidate.getFullName()+"\n"+candidate.getDescription());
 
-        sendPhoto.setReplyMarkup(InlineKeyboardUtil.getVotingMenu(candidate.getId(), candidate.getCountVotes()));
+        sendPhoto.setReplyMarkup(InlineKeyboardUtil.getVotingMenu(candidate.getId()));
         ComponentContainer.MY_BOT.sendMsg(sendPhoto);
 
     }

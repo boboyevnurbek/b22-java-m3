@@ -14,6 +14,7 @@ public class Customer {
     private String phoneNumber;
     private String confirmPassword;
     private boolean hasVoted = false;
+    private boolean active = false;
 
     public Customer(String chatId, String firstName, String lastName,
                     String phoneNumber, String confirmPassword) {

@@ -11,7 +11,7 @@ public class ComponentContainer {
     public static VotingBot MY_BOT = null;
     public static String BOT_USERNAME = "";
     public static String BOT_TOKEN = "";
-    public static String ADMIN_CHAT_ID = "616525392";
+    public static String ADMIN_CHAT_ID = "";
 
     public static boolean startElection = false;
 

@@ -20,9 +20,9 @@ public class InlineKeyboardUtil {
     }
 
 
-    public static InlineKeyboardMarkup getVotingMenu(String candidateId, int count) {
+    public static InlineKeyboardMarkup getVotingMenu(String candidateId) {
 
-        InlineKeyboardButton button = new InlineKeyboardButton("Ovoz berish + "+count);
+        InlineKeyboardButton button = new InlineKeyboardButton("Ovoz berish");
         button.setCallbackData("voting/"+candidateId);
 
         return new InlineKeyboardMarkup(List.of(List.of(button)));
