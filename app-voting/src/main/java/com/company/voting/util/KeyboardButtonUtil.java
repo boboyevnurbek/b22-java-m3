@@ -53,6 +53,8 @@ public class KeyboardButtonUtil {
         return getMarkup(getRowList(getRow(
                 getButton(KeyboardButtonConstants.ACCESS_VOTE),
                 getButton(KeyboardButtonConstants.SHOW_COUNT_VOICE)
-        )));
+        ),
+                getRow(getButton(KeyboardButtonConstants.CONNECT_TO_ADMIN
+                ))));
     }
 }

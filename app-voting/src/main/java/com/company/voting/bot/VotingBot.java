@@ -1,8 +1,8 @@
 package com.company.voting.bot;
 
 import com.company.voting.container.ComponentContainer;
-import com.company.voting.controller.AdminController;
-import com.company.voting.controller.MainController;
+import com.company.voting.container.controller.AdminController;
+import com.company.voting.container.controller.MainController;
 import com.company.voting.db.Database;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

@@ -2,9 +2,9 @@
   {
     "chatId": "1626572236",
     "firstName": "Otabek",
-    "lastName": "Eshpulatov",
+    "lastName": "Eshpo\u0027latov",
     "phoneNumber": "+998999308215",
-    "confirmPassword": "3020",
+    "confirmPassword": "9810",
     "hasVoted": false,
     "active": true
   },
@@ -13,106 +13,7 @@
     "firstName": "Baxtigul",
     "lastName": null,
     "phoneNumber": "+998994505038",
-    "confirmPassword": "4528",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "450369726",
-    "firstName": "MK",
-    "lastName": null,
-    "phoneNumber": "+998941174718",
-    "confirmPassword": "8106",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "568880807",
-    "firstName": "\u003c/Asrorxoʻja Yoʻldoshev\u003e",
-    "lastName": null,
-    "phoneNumber": "+998909041683",
-    "confirmPassword": "6250",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "1979172905",
-    "firstName": "Shohrux",
-    "lastName": "Soatov",
-    "phoneNumber": "+998909152526",
-    "confirmPassword": "2761",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "1023292518",
-    "firstName": "MUHAMMAD FATIH",
-    "lastName": null,
-    "phoneNumber": "+998935233052",
-    "confirmPassword": "6570",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "1053744830",
-    "firstName": "Yusupov",
-    "lastName": "Fayzullo",
-    "phoneNumber": "+998994353074",
-    "confirmPassword": "1073",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "1490827145",
-    "firstName": "Manguberdi",
-    "lastName": null,
-    "phoneNumber": "+998944803888",
-    "confirmPassword": "5487",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "816777376",
-    "firstName": "Sayidaloxon",
-    "lastName": null,
-    "phoneNumber": "+998943900080",
-    "confirmPassword": "2632",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "164940659",
-    "firstName": "Abdullo",
-    "lastName": "Khayrulloev",
-    "phoneNumber": "+998934775571",
-    "confirmPassword": "6502",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "781142775",
-    "firstName": "Nodir",
-    "lastName": null,
-    "phoneNumber": "+998943751512",
-    "confirmPassword": "7112",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "698010075",
-    "firstName": "Abbwwb",
-    "lastName": null,
-    "phoneNumber": "+998909240775",
-    "confirmPassword": "8387",
-    "hasVoted": false,
-    "active": true
-  },
-  {
-    "chatId": "1223201050",
-    "firstName": "𝔼𝕝𝕓𝕖𝕜_𝕏𝕠𝕝𝕞𝕒𝕥𝕠𝕧™",
-    "lastName": "SheengoE.O.E",
-    "phoneNumber": "998976437730",
-    "confirmPassword": "9462",
+    "confirmPassword": "1867",
     "hasVoted": false,
     "active": true
   },
@@ -121,34 +22,34 @@
     "firstName": "Баходиров",
     "lastName": null,
     "phoneNumber": "+998941059944",
-    "confirmPassword": "2884",
+    "confirmPassword": "4649",
     "hasVoted": false,
     "active": true
   },
   {
-    "chatId": "5570937198",
-    "firstName": "Javohir",
-    "lastName": null,
-    "phoneNumber": "998995110899",
-    "confirmPassword": "9332",
+    "chatId": "1979172905",
+    "firstName": "Shohrux",
+    "lastName": "Soatov",
+    "phoneNumber": "+998909152526",
+    "confirmPassword": "9775",
     "hasVoted": false,
-    "active": true
+    "active": false
   },
   {
-    "chatId": "912429653",
-    "firstName": "Fayzullo",
+    "chatId": "1023292518",
+    "firstName": "MUHAMMAD FATIH",
     "lastName": null,
-    "phoneNumber": "998996093110",
-    "confirmPassword": "2698",
+    "phoneNumber": "+998935233052",
+    "confirmPassword": "8703",
     "hasVoted": false,
-    "active": true
+    "active": false
   },
   {
-    "chatId": "1269467656",
-    "firstName": "Madinabonu",
+    "chatId": "450369726",
+    "firstName": "MK",
     "lastName": null,
-    "phoneNumber": "+998930020266",
-    "confirmPassword": "6106",
+    "phoneNumber": "+998941174718",
+    "confirmPassword": "1036",
     "hasVoted": false,
     "active": true
   }

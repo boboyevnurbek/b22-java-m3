@@ -1,9 +1,10 @@
-package com.company.voting.controller;
+package com.company.voting.container.controller;
 
 import com.company.voting.container.ComponentContainer;
 import com.company.voting.db.Database;
 import com.company.voting.entity.Candidate;
 import com.company.voting.entity.Customer;
+import com.company.voting.entity.MessageData;
 import com.company.voting.enums.AdminStatus;
 import com.company.voting.files.WorkWithFiles;
 import com.company.voting.service.CandidateService;
@@ -15,10 +16,10 @@ import lombok.AllArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminController {
@@ -197,6 +198,25 @@ public class AdminController {
                     ComponentContainer.MY_BOT.sendMsg(sendPhoto);
                 }
             }
+            else if (ComponentContainer.adminAnswerMap.containsKey(chatId)){
+                MessageData messageData = ComponentContainer.adminAnswerMap.get(chatId);
+
+                String customerChatId = messageData.getCustomerChatId();
+                Integer messageId = messageData.getMessage().getMessageId();
+                String messageText = messageData.getMessage().getText();
+
+                sendMessage.setChatId(customerChatId);
+                sendMessage.setText("Admin ning javobi: "+text);
+                ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+                EditMessageText editMessageText = new EditMessageText();
+                editMessageText.setChatId(chatId);
+                editMessageText.setText(messageText+"\n\n xabariga javob: \n\n "+text);
+                editMessageText.setMessageId(messageId);
+                ComponentContainer.MY_BOT.sendMsg(editMessageText);
+
+                ComponentContainer.adminAnswerMap.remove(chatId);
+            }
         }
 
     }
@@ -224,23 +244,33 @@ public class AdminController {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
 
-        if (data.equals(InlineButtonConstants.CONFIRM_CALL_BACK)) {
-            Candidate candidate = ComponentContainer.candidateMap.get(chatId);
-            CandidateService.addCandidate(candidate);
+        if(List.of(InlineButtonConstants.CONFIRM_CALL_BACK, InlineButtonConstants.CANCEL_CALL_BACK)
+                .contains(data)) {
+            if (data.equals(InlineButtonConstants.CONFIRM_CALL_BACK)) {
+                Candidate candidate = ComponentContainer.candidateMap.get(chatId);
+                CandidateService.addCandidate(candidate);
 
-            sendMessage.setText(candidate.getFullName() + " muvaffaqiyatli saqlandi.");
-        } else if (data.equals(InlineButtonConstants.CANCEL_CALL_BACK)) {
-            Candidate candidate = ComponentContainer.candidateMap.get(chatId);
-            sendMessage.setText(candidate.getFullName() + " saqlanmadi.");
+                sendMessage.setText(candidate.getFullName() + " muvaffaqiyatli saqlandi.");
+            } else if (data.equals(InlineButtonConstants.CANCEL_CALL_BACK)) {
+                Candidate candidate = ComponentContainer.candidateMap.get(chatId);
+                sendMessage.setText(candidate.getFullName() + " saqlanmadi.");
+            }
+
+            ComponentContainer.statusMap.remove(chatId);
+            ComponentContainer.candidateMap.remove(chatId);
+
+            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+            DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
+            ComponentContainer.MY_BOT.sendMsg(deleteMessage);
+        }else  if(data.startsWith(InlineButtonConstants.REPLY_CALL_BACK)){
+            String customerChatId = data.split("/")[1];
+
+            ComponentContainer.adminAnswerMap.put(chatId, new MessageData(message, customerChatId));
+
+            sendMessage.setText("Javobingizni kiriting: ");
+            ComponentContainer.MY_BOT.sendMsg(sendMessage);
         }
-
-        ComponentContainer.statusMap.remove(chatId);
-        ComponentContainer.candidateMap.remove(chatId);
-
-        ComponentContainer.MY_BOT.sendMsg(sendMessage);
-
-        DeleteMessage deleteMessage = new DeleteMessage(chatId, message.getMessageId());
-        ComponentContainer.MY_BOT.sendMsg(deleteMessage);
     }
 }
 

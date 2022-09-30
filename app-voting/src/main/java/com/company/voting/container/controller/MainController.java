@@ -1,4 +1,4 @@
-package com.company.voting.controller;
+package com.company.voting.container.controller;
 
 import com.company.voting.container.ComponentContainer;
 import com.company.voting.db.Database;
@@ -8,24 +8,20 @@ import com.company.voting.files.WorkWithFiles;
 import com.company.voting.qrcode.GenerateQRCode;
 import com.company.voting.service.CandidateService;
 import com.company.voting.service.CustomerService;
+import com.company.voting.util.InlineKeyboardUtil;
 import com.company.voting.util.KeyboardButtonConstants;
 import com.company.voting.util.KeyboardButtonUtil;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 
 public class MainController {
     public static void handleMessage(User user, Message message) {
@@ -40,6 +36,9 @@ public class MainController {
     }
 
     private static void handleContact(User user, Message message, Contact contact) {
+
+        if(!contact.getPhoneNumber().matches("(\\+)?998\\d{9}")) return;
+
         String chatId = String.valueOf(message.getChatId());
         Customer customer = CustomerService.getCustomerByChatId(chatId);
 
@@ -134,6 +133,27 @@ public class MainController {
                         }else{
                             sendMessage.setText("Ayni paytda aktiv saylov mavjud emas.");
                             ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                        }
+                    } else if(text.equals(KeyboardButtonConstants.CONNECT_TO_ADMIN)){
+
+                        ComponentContainer.customerMap.put(chatId, true);
+
+                        sendMessage.setText("Xabaringizni kiriting: ");
+                        ComponentContainer.MY_BOT.sendMsg(sendMessage);
+                    }else{
+                        if(ComponentContainer.customerMap.containsKey(chatId)){
+
+                            ComponentContainer.customerMap.remove(chatId);
+
+                            sendMessage.setText("Xabaringiz adminga jo'natildi.");
+                            ComponentContainer.MY_BOT.sendMsg(sendMessage);
+
+                            String str = "ChatId : "+customer.getChatId()+"\nFull name: "+customer.getFirstName()+
+                                    "\nPhone number: "+customer.getPhoneNumber()+
+                                    "\nText: "+text;
+                            SendMessage sendMessage1 = new SendMessage(ComponentContainer.ADMIN_CHAT_ID, str);
+                            sendMessage1.setReplyMarkup(InlineKeyboardUtil.getConnectMarkup(chatId));
+                            ComponentContainer.MY_BOT.sendMsg(sendMessage1);
                         }
                     }
                 }

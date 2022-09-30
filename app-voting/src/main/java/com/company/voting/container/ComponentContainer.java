@@ -2,6 +2,7 @@ package com.company.voting.container;
 
 import com.company.voting.bot.VotingBot;
 import com.company.voting.entity.Candidate;
+import com.company.voting.entity.MessageData;
 import com.company.voting.enums.AdminStatus;
 
 import java.util.HashMap;
@@ -18,4 +19,8 @@ public class ComponentContainer {
     // adminChatId, AdminStatus
     public static Map<String, AdminStatus> statusMap = new HashMap<>();
     public static Map<String, Candidate> candidateMap = new HashMap<>();
+
+    public static Map<String, Boolean> customerMap = new HashMap<>();
+
+    public static Map<String, MessageData> adminAnswerMap = new HashMap<>();
 }

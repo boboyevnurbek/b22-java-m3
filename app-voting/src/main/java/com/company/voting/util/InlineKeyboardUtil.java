@@ -27,4 +27,11 @@ public class InlineKeyboardUtil {
 
         return new InlineKeyboardMarkup(List.of(List.of(button)));
     }
+
+    public static InlineKeyboardMarkup getConnectMarkup(String chatId) {
+        InlineKeyboardButton button = new InlineKeyboardButton(InlineButtonConstants.REPLY_DEMO);
+        button.setCallbackData(InlineButtonConstants.REPLY_CALL_BACK+"/"+chatId);
+
+        return new InlineKeyboardMarkup(List.of(List.of(button)));
+    }
 }

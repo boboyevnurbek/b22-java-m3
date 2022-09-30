@@ -7,4 +7,6 @@ public class KeyboardButtonConstants {
     public static final String FINISH_ELECTION = "FINISH ELECTION";
 
     public static final String ACCESS_VOTE = "VOTING PROCESS";
+
+    public static final String CONNECT_TO_ADMIN = "SEND MESSAGE TO ADMIN";
 }
