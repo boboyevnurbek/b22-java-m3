@@ -1,6 +1,6 @@
 package com.company.entity;
 
-public class User {
+public class User extends Person {
     private String username;
     private String password;
     private int age;
@@ -28,6 +28,10 @@ public class User {
 
     public int getAge() {
         return age;
+    }
+
+    private void aboutUser(){
+        System.out.println(username+" -> "+age);
     }
 
     @Override
