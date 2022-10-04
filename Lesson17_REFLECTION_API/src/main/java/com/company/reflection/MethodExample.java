@@ -52,5 +52,12 @@ public class MethodExample {
 
         Class<? super User> superclass = userClass.getSuperclass();
         System.out.println("superclass = " + superclass);
+
+        System.out.println("user1 = " + user1);
+
+        // change password with reflection
+
+        System.out.println("user1 = " + user1);
+
     }
 }
