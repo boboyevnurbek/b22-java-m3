@@ -12,7 +12,6 @@
         <module>school-core</module>
         <module>school-domain</module>
         <module>school-web</module>
-        <module>school-db</module>
     </modules>
 
     <properties>

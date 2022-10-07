@@ -8,7 +8,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "teacherList")
 public class Subject {
     private Integer id;
     private String name;

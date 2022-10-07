@@ -9,9 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="school-core" />
         <module name="school-domain" />
-        <module name="school-db" />
         <module name="school-web" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="school-db" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

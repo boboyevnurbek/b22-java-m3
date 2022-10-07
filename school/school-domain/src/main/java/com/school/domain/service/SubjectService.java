@@ -1,6 +1,6 @@
 package com.school.domain.service;
 
-import com.school.db.Database;
+import com.school.domain.db.Database;
 import com.school.domain.entity.Subject;
 
 import java.util.Objects;

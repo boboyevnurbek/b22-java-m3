@@ -1,4 +1,4 @@
-package com.school.db;
+package com.school.domain.db;
 
 import com.school.domain.entity.*;
 
