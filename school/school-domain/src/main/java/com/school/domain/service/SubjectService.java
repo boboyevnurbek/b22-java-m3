@@ -3,6 +3,7 @@ package com.school.domain.service;
 import com.school.domain.db.Database;
 import com.school.domain.entity.Subject;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SubjectService {
@@ -18,5 +19,9 @@ public class SubjectService {
         Database.SUBJECTS.add(subject);
 
         return subject;
+    }
+
+    public List<Subject> getSubjectList(){
+        return Database.SUBJECTS;
     }
 }
