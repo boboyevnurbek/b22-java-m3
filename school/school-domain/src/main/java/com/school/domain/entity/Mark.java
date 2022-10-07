@@ -7,11 +7,12 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Mark {
-    private final Integer id;
+public class Mark extends AbsEntity {
+
     private Student student;
     private Subject subject;
     private Integer point;
     private Integer year;
     private Teacher teacher;
+
 }

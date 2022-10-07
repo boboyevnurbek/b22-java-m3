@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(exclude = "teacherList")
-public class Subject {
-    private Integer id;
+public class Subject extends AbsEntity {
+
     private String name;
     private List<Teacher> teacherList;
 

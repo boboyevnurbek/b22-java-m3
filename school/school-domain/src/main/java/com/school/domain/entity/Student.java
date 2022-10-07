@@ -7,8 +7,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Student {
-    private Integer id;
+public class Student extends AbsEntity{
+
     private String fullName;
     private Clazz clazz;
+
 }

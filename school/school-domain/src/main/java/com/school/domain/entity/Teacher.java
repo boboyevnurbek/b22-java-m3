@@ -9,8 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Teacher {
-    private Integer id;
+public class Teacher extends AbsEntity {
+
     private String fullName;
     private List<Subject> subjectList;
+
 }
