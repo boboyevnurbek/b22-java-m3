@@ -1,0 +1,13 @@
+com\school\domain\entity\AbsEntity.class
+com\school\domain\entity\Clazz.class
+com\school\domain\entity\Subject.class
+com\school\domain\db\Database.class
+com\school\domain\service\SubjectService.class
+com\school\domain\service\TeacherService.class
+com\school\domain\entity\Teacher.class
+com\school\domain\service\ClassService.class
+com\school\domain\service\MarkService.class
+com\school\domain\payload\Result.class
+com\school\domain\service\StudentService.class
+com\school\domain\entity\Mark.class
+com\school\domain\entity\Student.class

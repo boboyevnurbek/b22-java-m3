@@ -1,0 +1,8 @@
+com\school\core\ui\ClassUI.class
+com\school\core\ui\SubjectUI.class
+com\school\core\io\InOut.class
+com\school\core\ui\TeacherUI.class
+com\school\core\util\ScannerUtil.class
+com\school\core\Application.class
+com\school\core\ui\MarkUI.class
+com\school\core\ui\StudentUI.class
